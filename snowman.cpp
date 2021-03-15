@@ -3,15 +3,17 @@
 #include "snowman.hpp"
 
 using namespace std;
-constexpr int LEN_LEGAL = 8;
-constexpr int BASE = 7;
-constexpr int TORSO = 6;
-constexpr int RIGHT_ARM = 5;
-constexpr int LEFT_ARM = 4;
-constexpr int RIGHT_EYE = 3;
-constexpr int LEFT_EYE = 2;
-constexpr int NOSE = 1;
-constexpr int HAT = 0;
+
+//number of the part body in the string number
+constexpr int len_legal = 8;
+constexpr int base_num = 7;
+constexpr int torso_num = 6;
+constexpr int right_arm_num = 5;
+constexpr int left_arm_num = 4;
+constexpr int right_eye_num = 3;
+constexpr int left_eye_num = 2;
+constexpr int nose_num = 1;
+constexpr int hat_num = 0;
 
 namespace ariel
 {
@@ -171,17 +173,18 @@ namespace ariel
         }
     }
 
-    array<string, LEN_LEGAL> set_body()
+    // set the body of the snowman
+    array<string, len_legal> set_body()
     {
-        array<string, LEN_LEGAL> ans;
-        ans[HAT] = hat(str.at(HAT));
-        ans[NOSE] = nose(str.at(NOSE));
-        ans[LEFT_EYE] = left_and_right_eye(str.at(LEFT_EYE));
-        ans[RIGHT_EYE] = left_and_right_eye(str.at(RIGHT_EYE));
-        ans[LEFT_ARM] = left_arm(str.at(LEFT_ARM));
-        ans[RIGHT_ARM] = right_arm(str.at(RIGHT_ARM));
-        ans[TORSO] = torso(str.at(TORSO));
-        ans[BASE] = base(str.at(BASE));
+        array<string, len_legal> ans;
+        ans[hat_num] = hat(str.at(hat_num));
+        ans[nose_num] = nose(str.at(nose_num));
+        ans[left_eye_num] = left_and_right_eye(str.at(left_eye_num));
+        ans[right_eye_num] = left_and_right_eye(str.at(right_eye_num));
+        ans[left_arm_num] = left_arm(str.at(left_arm_num));
+        ans[right_arm_num] = right_arm(str.at(right_arm_num));
+        ans[torso_num] = torso(str.at(torso_num));
+        ans[base_num] = base(str.at(base_num));
         return ans;
     }
 
@@ -192,35 +195,41 @@ namespace ariel
 
         string ans;
 
-        if (str_size > LEN_LEGAL || str_size < LEN_LEGAL)
+        // if the number bigger or smaller then 8
+        if (str_size > len_legal || str_size < len_legal)
         {
             string err = "Invalid code '" + str + "'";
             throw invalid_argument(err);
         }
-        array<string, LEN_LEGAL> body = set_body();
-        ans = string(" ") + body[HAT] + "\n";
+
+        array<string, len_legal> body = set_body();
+        ans = string(" ") + body[hat_num] + "\n";
         string part_1;
         string part_2;
-        if (str.at(LEFT_ARM) == '2')
+        // while the left arm is up
+        if (str.at(left_arm_num) == '2')
         {
-            part_1 = body[LEFT_ARM] + "(" + body[LEFT_EYE] + body[NOSE] + body[RIGHT_EYE] + ")";
-            part_2 = string(" ") + "(" + body[TORSO] + ")";
+            part_1 = body[left_arm_num] + "(" + body[left_eye_num] + body[nose_num] + body[right_eye_num] + ")";
+            part_2 = string(" ") + "(" + body[torso_num] + ")";
         }
+        // while the left arm is down
         else
         {
-            part_1 = string(" ") + "(" + body[LEFT_EYE] + body[NOSE] + body[RIGHT_EYE] + ")";
-            part_2 = body[LEFT_ARM] + "(" + body[TORSO] + ")";
+            part_1 = string(" ") + "(" + body[left_eye_num] + body[nose_num] + body[right_eye_num] + ")";
+            part_2 = body[left_arm_num] + "(" + body[torso_num] + ")";
         }
-        if (str.at(RIGHT_ARM) == '2')
+        // while the right arm is up
+        if (str.at(right_arm_num) == '2')
         {
-            part_1 = part_1 + body[RIGHT_ARM];
+            part_1 = part_1 + body[right_arm_num];
         }
+        // while the right arm is down
         else
         {
-            part_2 = part_2 + body[RIGHT_ARM];
+            part_2 = part_2 + body[right_arm_num];
         }
         ans = ans + part_1 + "\n" + part_2 + "\n";
-        ans = ans + " (" + body[BASE] + ")";
+        ans = ans + " (" + body[base_num] + ")";
 
         return ans;
     }
