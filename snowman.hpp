@@ -1,4 +1,4 @@
-#include<stdexcept>
+#include<iostream>
 
 namespace ariel{
     std::string snowman(int num);
